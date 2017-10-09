@@ -1,9 +1,13 @@
 
+
+window.$ = window.jQuery = require('jquery');
+window.Laravel = { csrfToken: $('meta[name=csrf-token]').attr("content") };
+
 require('./bootstrap');
 import Vue from 'vue';
 import VueResource from 'vue-resource';
 import Example from './components/Example';
-import Customer from './components/Customer';
+import Customers from './components/Customers';
 window.Vue = require('vue');
 Vue.use(VueResource)
 //Vue.component('example', require('./components/Example.vue'));
@@ -14,6 +18,6 @@ Vue.use(VueResource)
 })*/
 const app = new Vue({
     el: '#app',
-    components: {Customer},
-    render: h => h(Customer)
+    //omponents: {Customers},
+    render: h => h(Customers)
 });

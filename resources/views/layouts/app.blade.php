@@ -7,8 +7,13 @@
         <!-- Main styles for this application -->
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
         <meta id="csrf-token" name="csrf-token" value="{{ csrf_token() }}">
+        <script>
+            var Laravel = {
+                'csrfToken' : '{{csrf_token()}}'
+            };
+        </script>
     </head>
     <body>
-        @yield('content')        
+        @yield('content')
     </body>
 </html>
