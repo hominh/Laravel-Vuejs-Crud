@@ -43800,6 +43800,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -43845,10 +43849,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$http.post("/customer/", this.customer).then(function (response) {
                 _this2.customers.push(response.data.customer); //push customer object to array customers
                 _this2.customer = { name: '', email: '' };
+                if (_this2.errors) {
+                    _this2.errors = [];
+                }
                 console.log(response.data);
             }, function (response) {
                 console.log(response.data.errors);
                 _this2.errors = response.data.errors;
+            });
+        },
+        deleteCustomer: function deleteCustomer(customer) {
+            var _this3 = this;
+
+            this.$http.delete("/customer/" + customer.id).then(function (response) {
+                var index = _this3.customers.indexOf(customer);
+                _this3.customers.splice(index, 1);
+                console.log(response.data);
             });
         }
     }
@@ -44071,7 +44087,22 @@ var render = function() {
                     return _c("tr", [
                       _c("td", [_vm._v(_vm._s(customer.name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(customer.email))])
+                      _c("td", [_vm._v(_vm._s(customer.email))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.deleteCustomer(customer)
+                              }
+                            }
+                          },
+                          [_vm._v("Delete")]
+                        )
+                      ])
                     ])
                   })
                 )
@@ -44103,7 +44134,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Email")])
+        _c("th", [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
       ])
     ])
   }

@@ -27,6 +27,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,6 +35,9 @@
                                 <tr v-for="customer in customers">
                                     <td>{{ customer.name }}</td>
                                     <td>{{ customer.email }}</td>
+                                    <td>
+                                        <button type="button" v-on:click="deleteCustomer(customer)">Delete</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -84,11 +88,20 @@
                 this.$http.post("/customer/",this.customer).then(response => {
                     this.customers.push(response.data.customer); //push customer object to array customers
                     this.customer = {name: '',email: ''};
+                    if(this.errors) {
+                        this.errors = [];
+                    }
                     console.log(response.data);
                 },response => {
                     console.log(response.data.errors);
                     this.errors = response.data.errors;
-
+                });
+            },
+            deleteCustomer(customer) {
+                this.$http.delete("/customer/"+customer.id).then( response =>{
+                    let index = this.customers.indexOf(customer);
+                    this.customers.splice(index,1);
+                    console.log(response.data);
                 });
             }
         }
